@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout :: head"></head>
+<body>
+<h3>查看</h3>
+<p>
+    <a th:href="@{/}">
+        返回列表
+    </a>
+</p>
+<div id="detail">
+    <div class="cusdetail">
+        <label>jobName:</label>
+        <label th:text="${job.getJobName()}"></label>
+    </div>
+    <div class="cusdetail">
+        <label>jobGroupName:</label>
+        <label th:text="${job.getJobGroupName()}"></label>
+    </div>
+    <div class="cusdetail">
+        <label>cronExpression:</label>
+        <label th:text="${job.getCronExpression()}"></label>
+    </div>
+</div>
+<footer th:replace="layout :: footer"></footer>
+</body>
+</html>

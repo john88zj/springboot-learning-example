@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout :: head"></head>
+<body>
+<h3>新增定时任务</h3>
+<p>
+    <a th:href="@{/}">
+        返回列表
+    </a>
+</p>
+<div id="form">
+    <form action="#" th:action="@{/quartz/addJob}" th:object="${quartzJob}"
+          method="POST" novalidate="novalidate">
+        <!--<input type="hidden" th:field="*{id}"/>-->
+        <div>
+            <label>jobName</label>
+            <input type="text" th:field="*{jobName}"/>
+        </div>
+        <div>
+            <label>jobGroupName</label>
+            <input type="text" th:field="*{jobGroupName}"/>
+        </div>
+        <div>
+            <label>cronExpression</label>
+            <input type="text" th:field="*{cronExpression}"/>
+        </div>
+        <input type="submit" value="Save"/>
+    </form>
+</div>
+<footer th:replace="layout :: footer"></footer>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout :: head"></head>
+<body>
+<h3>定时任务列表</h3>
+<p>
+    <a th:href="@{/product/create}">新增定时任务</a>
+</p>
+<div class="notify">
+    <div th:if="${success}">
+        <span th:text="${success}"></span>
+    </div>
+</div>
+<table id="products">
+    <thead>
+    <tr>
+        <th>序号</th>
+        <th>任务名称</th>
+        <th>任务所属组</th>
+        <th>状态</th>
+        <th>cron配置</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="row,rowStat : ${jobList}">
+        <td th:text="${rowStat.index}"></td>
+        <td th:text="${row.jobName}"></td>
+        <td th:text="${row.jobGroupName}"></td>
+        <td th:text="${row.jobStatus}"></td>
+        <td th:text="${row.cronExpression}"></td>
+        <td><a th:href="@{/quartz/{id}/edit(id=${row.jobName})}">编辑</a></td>
+        <!--<td><a th:href="@{/product/{id}/delete(id=${row.getId()})}">删除</a></td>-->
+        <!--<td><a th:href="@{/product/{id}/view(id=${row.getId()})}">执行</a></td>-->
+    </tr>
+    </tbody>
+</table>
+<footer th:replace="layout :: footer"></footer>
+</body>
+</html>
