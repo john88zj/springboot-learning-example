@@ -1,4 +1,4 @@
-create table if not exists apg.QRTZ_CALENDARS
+create table if not exists QRTZ_CALENDARS
 (
 	SCHED_NAME varchar(120) not null,
 	CALENDAR_NAME varchar(200) not null,
@@ -6,7 +6,7 @@ create table if not exists apg.QRTZ_CALENDARS
 	primary key (SCHED_NAME, CALENDAR_NAME)
 );
 
-create table if not exists apg.QRTZ_FIRED_TRIGGERS
+create table if not exists QRTZ_FIRED_TRIGGERS
 (
 	SCHED_NAME varchar(120) not null,
 	ENTRY_ID varchar(95) not null,
@@ -25,24 +25,24 @@ create table if not exists apg.QRTZ_FIRED_TRIGGERS
 );
 
 create index IDX_QRTZ_FT_INST_JOB_REQ_RCVRY
-	on apg.QRTZ_FIRED_TRIGGERS (SCHED_NAME, INSTANCE_NAME, REQUESTS_RECOVERY);
+	on QRTZ_FIRED_TRIGGERS (SCHED_NAME, INSTANCE_NAME, REQUESTS_RECOVERY);
 
 create index IDX_QRTZ_FT_JG
-	on apg.QRTZ_FIRED_TRIGGERS (SCHED_NAME, JOB_GROUP);
+	on QRTZ_FIRED_TRIGGERS (SCHED_NAME, JOB_GROUP);
 
 create index IDX_QRTZ_FT_J_G
-	on apg.QRTZ_FIRED_TRIGGERS (SCHED_NAME, JOB_NAME, JOB_GROUP);
+	on QRTZ_FIRED_TRIGGERS (SCHED_NAME, JOB_NAME, JOB_GROUP);
 
 create index IDX_QRTZ_FT_TG
-	on apg.QRTZ_FIRED_TRIGGERS (SCHED_NAME, TRIGGER_GROUP);
+	on QRTZ_FIRED_TRIGGERS (SCHED_NAME, TRIGGER_GROUP);
 
 create index IDX_QRTZ_FT_TRIG_INST_NAME
-	on apg.QRTZ_FIRED_TRIGGERS (SCHED_NAME, INSTANCE_NAME);
+	on QRTZ_FIRED_TRIGGERS (SCHED_NAME, INSTANCE_NAME);
 
 create index IDX_QRTZ_FT_T_G
-	on apg.QRTZ_FIRED_TRIGGERS (SCHED_NAME, TRIGGER_NAME, TRIGGER_GROUP);
+	on QRTZ_FIRED_TRIGGERS (SCHED_NAME, TRIGGER_NAME, TRIGGER_GROUP);
 
-create table if not exists apg.QRTZ_JOB_DETAILS
+create table if not exists QRTZ_JOB_DETAILS
 (
 	SCHED_NAME varchar(120) not null,
 	JOB_NAME varchar(200) not null,
@@ -58,26 +58,26 @@ create table if not exists apg.QRTZ_JOB_DETAILS
 );
 
 create index IDX_QRTZ_J_GRP
-	on apg.QRTZ_JOB_DETAILS (SCHED_NAME, JOB_GROUP);
+	on QRTZ_JOB_DETAILS (SCHED_NAME, JOB_GROUP);
 
 create index IDX_QRTZ_J_REQ_RECOVERY
-	on apg.QRTZ_JOB_DETAILS (SCHED_NAME, REQUESTS_RECOVERY);
+	on QRTZ_JOB_DETAILS (SCHED_NAME, REQUESTS_RECOVERY);
 
-create table if not exists apg.QRTZ_LOCKS
+create table if not exists QRTZ_LOCKS
 (
 	SCHED_NAME varchar(120) not null,
 	LOCK_NAME varchar(40) not null,
 	primary key (SCHED_NAME, LOCK_NAME)
 );
 
-create table if not exists apg.QRTZ_PAUSED_TRIGGER_GRPS
+create table if not exists QRTZ_PAUSED_TRIGGER_GRPS
 (
 	SCHED_NAME varchar(120) not null,
 	TRIGGER_GROUP varchar(200) not null,
 	primary key (SCHED_NAME, TRIGGER_GROUP)
 );
 
-create table if not exists apg.QRTZ_SCHEDULER_STATE
+create table if not exists QRTZ_SCHEDULER_STATE
 (
 	SCHED_NAME varchar(120) not null,
 	INSTANCE_NAME varchar(200) not null,
@@ -86,7 +86,7 @@ create table if not exists apg.QRTZ_SCHEDULER_STATE
 	primary key (SCHED_NAME, INSTANCE_NAME)
 );
 
-create table if not exists apg.QRTZ_TRIGGERS
+create table if not exists QRTZ_TRIGGERS
 (
 	SCHED_NAME varchar(120) not null,
 	TRIGGER_NAME varchar(200) not null,
@@ -106,10 +106,10 @@ create table if not exists apg.QRTZ_TRIGGERS
 	JOB_DATA blob null,
 	primary key (SCHED_NAME, TRIGGER_NAME, TRIGGER_GROUP),
 	constraint QRTZ_TRIGGERS_ibfk_1
-		foreign key (SCHED_NAME, JOB_NAME, JOB_GROUP) references apg.QRTZ_JOB_DETAILS (SCHED_NAME, JOB_NAME, JOB_GROUP)
+		foreign key (SCHED_NAME, JOB_NAME, JOB_GROUP) references QRTZ_JOB_DETAILS (SCHED_NAME, JOB_NAME, JOB_GROUP)
 );
 
-create table if not exists apg.QRTZ_BLOB_TRIGGERS
+create table if not exists QRTZ_BLOB_TRIGGERS
 (
 	SCHED_NAME varchar(120) not null,
 	TRIGGER_NAME varchar(200) not null,
@@ -117,13 +117,13 @@ create table if not exists apg.QRTZ_BLOB_TRIGGERS
 	BLOB_DATA blob null,
 	primary key (SCHED_NAME, TRIGGER_NAME, TRIGGER_GROUP),
 	constraint QRTZ_BLOB_TRIGGERS_ibfk_1
-		foreign key (SCHED_NAME, TRIGGER_NAME, TRIGGER_GROUP) references apg.QRTZ_TRIGGERS (SCHED_NAME, TRIGGER_NAME, TRIGGER_GROUP)
+		foreign key (SCHED_NAME, TRIGGER_NAME, TRIGGER_GROUP) references QRTZ_TRIGGERS (SCHED_NAME, TRIGGER_NAME, TRIGGER_GROUP)
 );
 
 create index SCHED_NAME
-	on apg.QRTZ_BLOB_TRIGGERS (SCHED_NAME, TRIGGER_NAME, TRIGGER_GROUP);
+	on QRTZ_BLOB_TRIGGERS (SCHED_NAME, TRIGGER_NAME, TRIGGER_GROUP);
 
-create table if not exists apg.QRTZ_CRON_TRIGGERS
+create table if not exists QRTZ_CRON_TRIGGERS
 (
 	SCHED_NAME varchar(120) not null,
 	TRIGGER_NAME varchar(200) not null,
@@ -132,10 +132,10 @@ create table if not exists apg.QRTZ_CRON_TRIGGERS
 	TIME_ZONE_ID varchar(80) null,
 	primary key (SCHED_NAME, TRIGGER_NAME, TRIGGER_GROUP),
 	constraint QRTZ_CRON_TRIGGERS_ibfk_1
-		foreign key (SCHED_NAME, TRIGGER_NAME, TRIGGER_GROUP) references apg.QRTZ_TRIGGERS (SCHED_NAME, TRIGGER_NAME, TRIGGER_GROUP)
+		foreign key (SCHED_NAME, TRIGGER_NAME, TRIGGER_GROUP) references QRTZ_TRIGGERS (SCHED_NAME, TRIGGER_NAME, TRIGGER_GROUP)
 );
 
-create table if not exists apg.QRTZ_SIMPLE_TRIGGERS
+create table if not exists QRTZ_SIMPLE_TRIGGERS
 (
 	SCHED_NAME varchar(120) not null,
 	TRIGGER_NAME varchar(200) not null,
@@ -145,10 +145,10 @@ create table if not exists apg.QRTZ_SIMPLE_TRIGGERS
 	TIMES_TRIGGERED bigint(10) not null,
 	primary key (SCHED_NAME, TRIGGER_NAME, TRIGGER_GROUP),
 	constraint QRTZ_SIMPLE_TRIGGERS_ibfk_1
-		foreign key (SCHED_NAME, TRIGGER_NAME, TRIGGER_GROUP) references apg.QRTZ_TRIGGERS (SCHED_NAME, TRIGGER_NAME, TRIGGER_GROUP)
+		foreign key (SCHED_NAME, TRIGGER_NAME, TRIGGER_GROUP) references QRTZ_TRIGGERS (SCHED_NAME, TRIGGER_NAME, TRIGGER_GROUP)
 );
 
-create table if not exists apg.QRTZ_SIMPROP_TRIGGERS
+create table if not exists QRTZ_SIMPROP_TRIGGERS
 (
 	SCHED_NAME varchar(120) not null,
 	TRIGGER_NAME varchar(200) not null,
@@ -166,48 +166,48 @@ create table if not exists apg.QRTZ_SIMPROP_TRIGGERS
 	BOOL_PROP_2 varchar(1) null,
 	primary key (SCHED_NAME, TRIGGER_NAME, TRIGGER_GROUP),
 	constraint QRTZ_SIMPROP_TRIGGERS_ibfk_1
-		foreign key (SCHED_NAME, TRIGGER_NAME, TRIGGER_GROUP) references apg.QRTZ_TRIGGERS (SCHED_NAME, TRIGGER_NAME, TRIGGER_GROUP)
+		foreign key (SCHED_NAME, TRIGGER_NAME, TRIGGER_GROUP) references QRTZ_TRIGGERS (SCHED_NAME, TRIGGER_NAME, TRIGGER_GROUP)
 );
 
 create index IDX_QRTZ_T_C
-	on apg.QRTZ_TRIGGERS (SCHED_NAME, CALENDAR_NAME);
+	on QRTZ_TRIGGERS (SCHED_NAME, CALENDAR_NAME);
 
 create index IDX_QRTZ_T_G
-	on apg.QRTZ_TRIGGERS (SCHED_NAME, TRIGGER_GROUP);
+	on QRTZ_TRIGGERS (SCHED_NAME, TRIGGER_GROUP);
 
 create index IDX_QRTZ_T_J
-	on apg.QRTZ_TRIGGERS (SCHED_NAME, JOB_NAME, JOB_GROUP);
+	on QRTZ_TRIGGERS (SCHED_NAME, JOB_NAME, JOB_GROUP);
 
 create index IDX_QRTZ_T_JG
-	on apg.QRTZ_TRIGGERS (SCHED_NAME, JOB_GROUP);
+	on QRTZ_TRIGGERS (SCHED_NAME, JOB_GROUP);
 
 create index IDX_QRTZ_T_NEXT_FIRE_TIME
-	on apg.QRTZ_TRIGGERS (SCHED_NAME, NEXT_FIRE_TIME);
+	on QRTZ_TRIGGERS (SCHED_NAME, NEXT_FIRE_TIME);
 
 create index IDX_QRTZ_T_NFT_MISFIRE
-	on apg.QRTZ_TRIGGERS (SCHED_NAME, MISFIRE_INSTR, NEXT_FIRE_TIME);
+	on QRTZ_TRIGGERS (SCHED_NAME, MISFIRE_INSTR, NEXT_FIRE_TIME);
 
 create index IDX_QRTZ_T_NFT_ST
-	on apg.QRTZ_TRIGGERS (SCHED_NAME, TRIGGER_STATE, NEXT_FIRE_TIME);
+	on QRTZ_TRIGGERS (SCHED_NAME, TRIGGER_STATE, NEXT_FIRE_TIME);
 
 create index IDX_QRTZ_T_NFT_ST_MISFIRE
-	on apg.QRTZ_TRIGGERS (SCHED_NAME, MISFIRE_INSTR, NEXT_FIRE_TIME, TRIGGER_STATE);
+	on QRTZ_TRIGGERS (SCHED_NAME, MISFIRE_INSTR, NEXT_FIRE_TIME, TRIGGER_STATE);
 
 create index IDX_QRTZ_T_NFT_ST_MISFIRE_GRP
-	on apg.QRTZ_TRIGGERS (SCHED_NAME, MISFIRE_INSTR, NEXT_FIRE_TIME, TRIGGER_GROUP, TRIGGER_STATE);
+	on QRTZ_TRIGGERS (SCHED_NAME, MISFIRE_INSTR, NEXT_FIRE_TIME, TRIGGER_GROUP, TRIGGER_STATE);
 
 create index IDX_QRTZ_T_N_G_STATE
-	on apg.QRTZ_TRIGGERS (SCHED_NAME, TRIGGER_GROUP, TRIGGER_STATE);
+	on QRTZ_TRIGGERS (SCHED_NAME, TRIGGER_GROUP, TRIGGER_STATE);
 
 create index IDX_QRTZ_T_N_STATE
-	on apg.QRTZ_TRIGGERS (SCHED_NAME, TRIGGER_NAME, TRIGGER_GROUP, TRIGGER_STATE);
+	on QRTZ_TRIGGERS (SCHED_NAME, TRIGGER_NAME, TRIGGER_GROUP, TRIGGER_STATE);
 
 create index IDX_QRTZ_T_STATE
-	on apg.QRTZ_TRIGGERS (SCHED_NAME, TRIGGER_STATE);
+	on QRTZ_TRIGGERS (SCHED_NAME, TRIGGER_STATE);
 
 
 
-create table if not exists apg.t_user
+create table if not exists t_user
 (
 	ID varchar(50) not null,
 	USER_NAME varchar(200) not null,
@@ -221,7 +221,7 @@ create table if not exists apg.t_user
 
 
 
-create table if not exists apg.sys_user
+create table if not exists sys_user
 (
 	ID varchar(50) not null,
 	USER_NAME varchar(200) not null,
@@ -234,7 +234,7 @@ create table if not exists apg.sys_user
 
 
 
-create table if not exists apg.sys_user
+create table if not exists sys_user
 (
 	ID varchar(50) not null,
 	USER_NAME varchar(200) not null,
@@ -246,7 +246,7 @@ create table if not exists apg.sys_user
 );
 
 
-create table if not exists apg.sys_role
+create table if not exists sys_role
 (
 	ID varchar(50) not null,
 	NAME varchar(200) not null,

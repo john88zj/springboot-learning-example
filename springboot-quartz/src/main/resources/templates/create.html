@@ -9,20 +9,28 @@
     </a>
 </p>
 <div id="form">
-    <form action="#" th:action="@{/quartz/addJob}" th:object="${quartzJob}"
+    <form action="#" th:action="@{/quartz/addJob}"
           method="POST" novalidate="novalidate">
         <!--<input type="hidden" th:field="*{id}"/>-->
         <div>
             <label>jobName</label>
-            <input type="text" th:field="*{jobName}"/>
+            <input type="text" th:id="jobName" th:name="jobName" value=""/>
         </div>
         <div>
             <label>jobGroupName</label>
-            <input type="text" th:field="*{jobGroupName}"/>
+            <input type="text" th:id="jobGroupName" th:name="jobGroupName" value=""/>
+        </div>
+        <div>
+            <label>className</label>
+            <input type="text" th:id="className" th:name="className" value=""/>
         </div>
         <div>
             <label>cronExpression</label>
-            <input type="text" th:field="*{cronExpression}"/>
+            <input type="text" th:id="cronExpression" th:name="cronExpression" value=""/>
+        </div>
+        <div>
+            <label>description</label>
+            <input type="text" th:id="description" th:name="description" value=""/>
         </div>
         <input type="submit" value="Save"/>
     </form>

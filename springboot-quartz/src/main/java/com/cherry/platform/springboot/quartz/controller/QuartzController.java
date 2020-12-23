@@ -3,9 +3,11 @@ package com.cherry.platform.springboot.quartz.controller;
 import com.cherry.platform.springboot.quartz.exception.QuartzException;
 import com.cherry.platform.springboot.quartz.task.TaskOne;
 import com.cherry.platform.springboot.quartz.util.QuartzJobUtil;
+import com.cherry.platform.springboot.quartz.vo.QuartzJob;
 import com.cherry.platform.springboot.quartz.vo.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.CronExpression;
+import org.quartz.JobDetail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -60,23 +62,27 @@ public class QuartzController {
 	
 	
 	/**
+	 * 新增页面
+	 * @return
+	 */
+	@RequestMapping("create")
+	public String create(Model model, HttpServletRequest request) {
+		log.info("====quartz::create,{}","start");
+		
+		return "create";
+	}
+	
+	
+	/**
 	 * 列表
 	 * @return
 	 */
 	@RequestMapping("edit")
-	public String edit(Model model, HttpServletRequest request) {
-		
-		List<Map<String, Object>> jobList = null;
-		
-		try {
-			jobList = quartzJobUtil.getAllJob();
-			
-		} catch (QuartzException e) {
-			e.printStackTrace();
-		}
-		model.addAttribute("jobList",jobList);
-//		request.getSession().setAttribute("people","jime");
-		
+	public String edit(Model model, HttpServletRequest request,
+					   String jobName,String jobGroupName) {
+		log.info("====quartz::edit,jobName:{},jobGroupName:{}",jobName,jobGroupName);
+		QuartzJob jobDetail = quartzJobUtil.getDetail(jobName,jobGroupName);
+		model.addAttribute("detail",jobDetail);
 		return "edit";
 	}
 	
@@ -112,15 +118,17 @@ public class QuartzController {
 	public Result addJob(String className,
 						 String jobName,
 						 String jobGroupName,
+						 String description,
 						 String cronExpression) {
-
+		log.info("====quartz::addJob, className:{},jobName:{},jobGroupName:{}, description:{},cronExpression:{}",
+				className,jobName,jobGroupName,description,cronExpression);
 		Boolean isValid = CronExpression.isValidExpression(cronExpression);
 		if(!isValid){
 			return Result.fail("表达式不合法");
 		}
 		try {
 			Class clz = Class.forName(className);
-			quartzJobUtil.addJob(clz, jobName, jobGroupName, cronExpression);
+			quartzJobUtil.addJob(clz, jobName, jobGroupName,description, cronExpression);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return Result.fail();
@@ -137,11 +145,11 @@ public class QuartzController {
 	 */
 	@RequestMapping("save")
 	@ResponseBody
-	public Result save(String jobName, String jobGroupName,String cronExpression) {
-		log.info("====quartz::save, {}, jobName:{},jobGroupName:{},cronExpression:{}", "start",
-				jobName, jobGroupName,cronExpression);
+	public Result save(String jobName, String jobGroupName,String cronExpression,String description) {
+		log.info("====quartz::save, {}, jobName:{},jobGroupName:{},cronExpression:{},description:{}", "start",
+				jobName, jobGroupName,cronExpression,description);
 		try {
-			quartzJobUtil.updateJob(jobName, jobGroupName,cronExpression);
+			quartzJobUtil.updateJob(jobName, jobGroupName,cronExpression,description);
 		} catch (QuartzException e) {
 			e.printStackTrace();
 		}
@@ -192,7 +200,12 @@ public class QuartzController {
 		return Result.sucess();
 	}
 	
-	
+	/**
+	 * 任务挂起
+	 * @param jobName
+	 * @param jobGroupName
+	 * @return
+	 */
 	@RequestMapping("pause")
 	@ResponseBody
 	public Result pause(String jobName,String jobGroupName) {

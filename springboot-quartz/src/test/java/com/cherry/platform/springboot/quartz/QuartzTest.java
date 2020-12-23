@@ -27,7 +27,7 @@ public class QuartzTest {
 	@Test
 	public void addJob() throws Exception{
 		quartzJobUtil.deleteJob("我的job","task");
-		quartzJobUtil.addJob(TaskOne.class,"我的job","task","0 * * * * ?");
+		quartzJobUtil.addJob(TaskOne.class,"我的job","task","0 * * * * ?","");
 		Thread.sleep(100000);
 	}
 	

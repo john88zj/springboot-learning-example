@@ -4,7 +4,7 @@
 <body>
 <h3>定时任务列表</h3>
 <p>
-    <a th:href="@{/product/create}">新增定时任务</a>
+    <a th:href="@{/quartz/create}">新增定时任务</a>
 </p>
 <div class="notify">
     <div th:if="${success}">
@@ -29,7 +29,18 @@
         <td th:text="${row.jobGroupName}"></td>
         <td th:text="${row.jobStatus}"></td>
         <td th:text="${row.cronExpression}"></td>
-        <td><a th:href="@{/quartz/{id}/edit(id=${row.jobName})}">编辑</a></td>
+        <td>
+            <a th:href="@{'/quartz/edit?jobName='+${row.jobName}+ '&jobGroupName=' +${row.jobGroupName}}">编辑</a>
+            <a th:href="@{'/quartz/delJob?jobName='+${row.jobName}+ '&jobGroupName=' +${row.jobGroupName}}">删除</a>
+            <span th:if="${row.jobStatus} eq NORMAL ">
+                <!--<a data-th-id=""  onclick="pause('','')">挂起</a>-->
+                <a th:href="@{'/quartz/pause?jobName='+${row.jobName}+ '&jobGroupName=' +${row.jobGroupName}}">挂起</a>
+            </span>
+            <span th:if="${row.jobStatus} eq PAUSED ">
+                <a th:href="@{'/quartz/resume?jobName='+${row.jobName}+ '&jobGroupName=' +${row.jobGroupName}}">恢复</a>
+            </span>
+        </td>
+
         <!--<td><a th:href="@{/product/{id}/delete(id=${row.getId()})}">删除</a></td>-->
         <!--<td><a th:href="@{/product/{id}/view(id=${row.getId()})}">执行</a></td>-->
     </tr>
@@ -37,4 +48,28 @@
 </table>
 <footer th:replace="layout :: footer"></footer>
 </body>
+<script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+<script type="text/javascript" th:inline="javascript">
+    $(document).ready(
+    function pause(jobName,jobGroupName) {
+        $.ajax({
+            url:[[@{/quartz/pause}]],
+            type: 'post',
+            dataType : 'text/html',
+            contentType: 'application/text',
+            data : {
+                jobName:jobName,
+                jobGroupName:jobGroupName
+            },
+            success: function(){
+                alert("sucess");
+            },
+            error: function(){
+                alert("error");
+            }
+        })
+    }
+    )
+</script>
+
 </html>

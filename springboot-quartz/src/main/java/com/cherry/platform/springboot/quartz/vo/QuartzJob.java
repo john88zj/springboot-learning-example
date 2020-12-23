@@ -22,6 +22,8 @@ public class QuartzJob {
 	
 	private String cronExpression;
 	
+	private String description;
+	
 	private Map<String, Object> argMap;
 	
 }
