@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Title</title>
+</head>
+<body>
+<p th:text="${data}">
+springboot 集成 thymeleaf
+</p>
+<p>
+<span th:text="${user.id}">1</span>
+<h6>-----</h6>
+
+
+<a href="info.html" th:href="@{'http://localhost:8084/'}">查看</a>
+</body>
+</html>
