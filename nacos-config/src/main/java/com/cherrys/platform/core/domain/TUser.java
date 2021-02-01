@@ -6,7 +6,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.util.Date;
 
-/*CREATE TABLE `test`.`无标题`  (
+/*CREATE TABLE `t_user`  (
         `ID` bigint(20) NOT NULL AUTO_INCREMENT,
         `USER_NAME` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
         `USER_PSWD` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
